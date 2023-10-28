@@ -205,7 +205,7 @@ const categoryController = {
       next(error);
     }
   },
-  getAllPosts: async (req: Request, res: Response, next: NextFunction) => {
+  getAllCategories: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const limit = req.query.limit ? Number(req.query.limit) : undefined;
       const offset = req.query.offset ? Number(req.query.offset) : undefined;
