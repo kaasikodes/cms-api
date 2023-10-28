@@ -1,4 +1,4 @@
-# This is an api for a CMS application
+# CMS API 
 
 ## ******\*\*\*\*******\_\_\_******\*\*\*\*******
 ### Getting Started
