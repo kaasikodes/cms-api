@@ -7,8 +7,13 @@ import authSchemas from "../../../validation/auth";
 const authRouter = Router();
 const { signup, login, resetPassword, forgotPassword, logout } = authController;
 const { verifyResetPasswordToken, verifyAuthToken } = authMiddleware;
-const { signupSchema, loginSchema, resetPasswordSchema, forgotPasswordSchema } =
-  authSchemas;
+const {
+  signupSchema,
+  loginSchema,
+  resetPasswordSchema,
+  forgotPasswordSchema,
+  logoutSchema,
+} = authSchemas;
 
 authRouter.post("/signup", validator(signupSchema), signup);
 authRouter.post("/login", validator(loginSchema), login);
@@ -23,6 +28,6 @@ authRouter.post(
   verifyResetPasswordToken,
   resetPassword
 );
-authRouter.post("/logout", verifyAuthToken, logout);
+authRouter.post("/logout", validator(logoutSchema), verifyAuthToken, logout);
 
 export default authRouter;
