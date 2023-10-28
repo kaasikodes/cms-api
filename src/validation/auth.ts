@@ -51,7 +51,15 @@ export default {
       .isEmail()
       .withMessage("Enter a valid email address."),
   ],
-
+  logoutSchema: [
+    check("email")
+      .not()
+      .isEmpty()
+      .withMessage("Email address is required.")
+      .trim()
+      .isEmail()
+      .withMessage("Enter a valid email address."),
+  ],
   resetPasswordSchema: [
     check("email")
       .not()
@@ -60,6 +68,7 @@ export default {
       .trim()
       .isEmail()
       .withMessage("Enter a valid email address."),
+
     check("newPassword")
       .not()
       .isEmpty({ ignore_whitespace: true })

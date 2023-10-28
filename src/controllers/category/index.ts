@@ -70,7 +70,7 @@ const categoryController = {
             ) {
               return res.status(400).json({
                 status: "error",
-                message: `You can only delete your post!`,
+                message: `You can only delete your category!`,
                 data: {},
               });
             } else {
@@ -83,7 +83,7 @@ const categoryController = {
                 status: "success",
                 message: "Category deleted successfully!",
                 data: {
-                  post: updatedCategory,
+                  category: updatedCategory,
                 },
               });
             }
@@ -116,10 +116,9 @@ const categoryController = {
           if (decoded) {
             const authorId = (decoded as any)?.id as unknown as string;
 
-            const createdCategory = await prisma.post.create({
+            const createdCategory = await prisma.category.create({
               data: {
-                content: req.body.content,
-                title: req.body.title,
+                name: req.body.name,
                 author: {
                   connect: {
                     id: authorId,
@@ -131,7 +130,7 @@ const categoryController = {
               status: "success",
               message: "Category created successfully!",
               data: {
-                post: createdCategory,
+                category: createdCategory,
               },
             });
           }
@@ -182,7 +181,7 @@ const categoryController = {
                 data: {},
               });
             } else {
-              const updatedPost = await prisma.post.update({
+              const updatedData = await prisma.category.update({
                 where: {
                   id: req.params.id,
                 },
@@ -194,7 +193,7 @@ const categoryController = {
                 status: "success",
                 message: "Category updated successfully!",
                 data: {
-                  post: updatedPost,
+                  category: updatedData,
                 },
               });
             }
@@ -218,7 +217,7 @@ const categoryController = {
       });
       return res.status(200).json({
         status: "success",
-        message: "Posts retrieved successfully!",
+        message: "Categories retrieved successfully!",
         data: {
           result: posts,
           total,
