@@ -53,7 +53,7 @@ const userController = {
       if (!user) {
         return res.status(400).json({
           status: "error",
-          message: `No user exists with email provided!`,
+          message: `No user exists with id provided!`,
           data: {},
         });
       }
@@ -95,6 +95,85 @@ const userController = {
                 message: "User updated successfully!",
                 data: {
                   user: excludeTypesInModel(updatedUser, [
+                    "password",
+                    "pwdResetToken",
+                    "currentSessionToken",
+                  ]),
+                },
+              });
+            }
+          }
+        }
+      );
+    } catch (error: any) {
+      next(error);
+    }
+  },
+  deleteUser: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { authorization } = req.headers;
+      let token: string;
+
+      [, token] = (authorization as string).split(" ");
+
+      const user = await prisma.user.findUnique({
+        where: {
+          id: req.params.id,
+        },
+        include: {
+          categories: true,
+          posts: true,
+        },
+      });
+      if (!user) {
+        return res.status(400).json({
+          status: "error",
+          message: `No user exists with id provided!`,
+          data: {},
+        });
+      }
+      if (user.categories.length > 0 || user.posts.length > 0) {
+        return res.status(400).json({
+          status: "error",
+          message: `User has posts or categories, so can't be deleted, without admin permission!`,
+          data: {},
+        });
+      }
+      jwt.verify(
+        token,
+        publicKey,
+        {
+          algorithms: ["RS256"],
+          issuer: ENV.APP_DOMAIN,
+        },
+        async (err, decoded) => {
+          if (err) {
+            console.log("Error verifying token:", err);
+            next(err);
+          }
+          if (decoded) {
+            console.log(decoded);
+            const user = await prisma.user.findUnique({
+              where: { id: (decoded as any)?.id as unknown as string },
+            });
+
+            if (((decoded as any)?.id as unknown as string) !== req.params.id) {
+              return res.status(400).json({
+                status: "error",
+                message: `You can only delete your profile!`,
+                data: {},
+              });
+            } else {
+              const deletedUser = await prisma.user.delete({
+                where: {
+                  id: req.params.id,
+                },
+              });
+              return res.status(200).json({
+                status: "success",
+                message: "User deleted successfully!",
+                data: {
+                  user: excludeTypesInModel(deletedUser, [
                     "password",
                     "pwdResetToken",
                     "currentSessionToken",
