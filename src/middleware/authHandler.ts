@@ -32,11 +32,10 @@ const authHandler = {
         },
         async (err, decoded) => {
           if (err) {
-            console.log("Error verifying token:", err);
+            // TODO : implement a log debugging
             next(err);
           }
           if (decoded) {
-            console.log(decoded);
             const user = await prisma.user.findUnique({
               where: { id: (decoded as any)?.id as unknown as string },
             });
@@ -87,11 +86,9 @@ const authHandler = {
         },
         async (err, decoded) => {
           if (err) {
-            console.log("Error verifying token:", err);
             next(err);
           }
           if (decoded) {
-            console.log(decoded);
             const user = await prisma.user.findUnique({
               where: { id: (decoded as any)?.id as unknown as string },
             });

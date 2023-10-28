@@ -62,7 +62,6 @@ const postController = {
         },
         async (err, decoded) => {
           if (err) {
-            console.log("Error verifying token:", err);
             next(err);
           }
           if (decoded) {
@@ -109,7 +108,6 @@ const postController = {
         },
         async (err, decoded) => {
           if (err) {
-            console.log("Error verifying token:", err);
             next(err);
           }
           if (decoded) {
@@ -168,7 +166,6 @@ const postController = {
         },
         async (err, decoded) => {
           if (err) {
-            console.log("Error verifying token:", err);
             next(err);
           }
           if (decoded) {

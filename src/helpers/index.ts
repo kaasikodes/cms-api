@@ -17,7 +17,6 @@ export const generateAuthToken = ({
   id: string;
   password?: string | null;
 }) => {
-  console.log(ENV.AUTH_TOKEN_EXPIRES_IN, "EXPIRES IN");
   return jwt.sign({ id, password }, privateKey, {
     algorithm: "RS256",
     issuer: ENV.APP_DOMAIN,
@@ -34,6 +33,7 @@ export const verifyToken = ({ token }: { token: string }) =>
     },
     (err, decoded) => {
       if (err) {
+        // TODO : implement a log debugging
         console.log("Error verifying token:", err);
       }
       return decoded;
@@ -42,7 +42,6 @@ export const verifyToken = ({ token }: { token: string }) =>
 
 export const sendResetPasswordEmail = (email: string, resetToken: string) => {
   // TODO: Implement proper logic to send mail
-  console.log(`Email sent to ${email} with reset token: ${resetToken}`);
 };
 
 export const excludeTypesInModel = <ModelType, Key extends keyof ModelType>(

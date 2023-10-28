@@ -61,7 +61,6 @@ const categoryController = {
         },
         async (err, decoded) => {
           if (err) {
-            console.log("Error verifying token:", err);
             next(err);
           }
           if (decoded) {
@@ -110,7 +109,6 @@ const categoryController = {
         },
         async (err, decoded) => {
           if (err) {
-            console.log("Error verifying token:", err);
             next(err);
           }
           if (decoded) {
@@ -168,7 +166,6 @@ const categoryController = {
         },
         async (err, decoded) => {
           if (err) {
-            console.log("Error verifying token:", err);
             next(err);
           }
           if (decoded) {
